@@ -86,6 +86,12 @@ export default function Home() {
                 <dt>Codice di abbigliamento</dt>
                 <dd>Vestiti come un personaggio di <em>Shrek</em> ↓</dd>
               </dl>
+              <p className="mono" style={{ marginTop: 18, fontSize: 15, textAlign: 'center', color: 'var(--crimson)', fontWeight: 600 }}>
+                ⚠ IL TRAVESTIMENTO È OBBLIGATORIO. ⚠<br/>
+                <span style={{ fontWeight: 400, fontSize: 13, color: 'var(--ink-soft)' }}>
+                  Non si entra nella palude senza costume. Impegnatevi. Sul serio.
+                </span>
+              </p>
             </div>
             <div className="center" style={{ display: 'grid', gap: 18, justifyItems: 'center' }}>
               <div className="script" style={{ fontSize: 38, color: 'var(--moss-deep)' }}>conto alla rovescia</div>

@@ -7,9 +7,10 @@ interface CountdownProps {
 }
 
 export default function Countdown({ target = '2026-05-29T20:00:00' }: CountdownProps) {
-  const [now, setNow] = useState(() => Date.now());
+  const [now, setNow] = useState(0);
 
   useEffect(() => {
+    setNow(Date.now());
     const id = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(id);
   }, []);

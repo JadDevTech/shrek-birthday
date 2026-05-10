@@ -63,8 +63,12 @@ export const RSVPStore = {
     // Initial fetch
     RSVPStore.list().then(fn);
 
-    // Real-time subscription
-    const channel = supabase.channel('rsvps-changes');
+    // Skip realtime on server
+    if (typeof window === 'undefined') return () => {};
+
+    // Use unique channel name to avoid conflicts with React Strict Mode
+    const channelName = 'rsvps-' + Math.random().toString(36).slice(2);
+    const channel = supabase.channel(channelName);
     channel.on('postgres_changes', { event: '*', schema: 'public', table: 'rsvps' }, () => {
       RSVPStore.list().then(fn);
     });

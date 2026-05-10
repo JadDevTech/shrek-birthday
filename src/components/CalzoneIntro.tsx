@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { startMusic } from '@/lib/audio';
 
 interface CalzoneIntroProps {
   onOpen: () => void;
@@ -43,7 +44,7 @@ export default function CalzoneIntro({ onOpen }: CalzoneIntroProps) {
             ))}
           </div>
 
-          <button className="calzone-btn" onClick={() => setPhase('cracking')} aria-label="Apri il calzone">
+          <button className="calzone-btn" onClick={() => { startMusic(); setPhase('cracking'); }} aria-label="Apri il calzone">
             <svg viewBox="-130 -90 260 180" className="calzone-svg">
               <defs>
                 <radialGradient id="cz-body" cx="50%" cy="40%" r="60%">
@@ -122,6 +123,18 @@ export default function CalzoneIntro({ onOpen }: CalzoneIntroProps) {
           <div className="calzone-caption mono faded">
             Shrek sta per uscire da un calzone
           </div>
+
+          {!opening && (
+            <motion.div
+              className="mono"
+              style={{ marginTop: 24, textAlign: 'center', color: 'var(--gold)', fontSize: 14, letterSpacing: '.1em' }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              &#x1F50A; Alza il volume del dispositivo per l&apos;esperienza completa!
+            </motion.div>
+          )}
         </div>
       </motion.div>
     </AnimatePresence>

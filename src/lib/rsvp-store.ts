@@ -64,12 +64,11 @@ export const RSVPStore = {
     RSVPStore.list().then(fn);
 
     // Real-time subscription
-    const channel = supabase
-      .channel('rsvps-changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'rsvps' }, () => {
-        RSVPStore.list().then(fn);
-      })
-      .subscribe();
+    const channel = supabase.channel('rsvps-changes');
+    channel.on('postgres_changes', { event: '*', schema: 'public', table: 'rsvps' }, () => {
+      RSVPStore.list().then(fn);
+    });
+    channel.subscribe();
 
     return () => {
       supabase.removeChannel(channel);

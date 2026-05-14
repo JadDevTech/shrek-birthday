@@ -519,6 +519,7 @@ footer.foot {
   box-shadow: 0 1px 0 rgba(220,240,170,.55) inset, 0 8px 14px -10px rgba(20,40,5,.5);
 }
 .char-card.locked { cursor: not-allowed; }
+.char-card.disabled { cursor: not-allowed; opacity: 0.45; filter: grayscale(0.6); }
 .char-portrait-wrap {
   position: relative;
   aspect-ratio: 1;

@@ -34,5 +34,10 @@ export const CHARACTERS: Character[] = [
   { id: 'cenerentola',   nome: 'Cenerentola',              ruolo: 'Della Scarpetta di Cristallo' },
   { id: 'biancaneve',    nome: 'Biancaneve',               ruolo: 'Della Mela e dei Sette Nani' },
   { id: 'bella',         nome: 'Bella Addormentata',       ruolo: 'Sempre un po\u2019 stanca' },
-  { id: 'raperonzolo',   nome: 'Raperonzolo',              ruolo: 'Della Lunga Treccia' }
+  { id: 'raperonzolo',   nome: 'Raperonzolo',              ruolo: 'Della Lunga Treccia' },
+  { id: 'humpty',        nome: 'Humpty Dumpty',             ruolo: 'L\u2019Uovo Avventuriero' },
+  { id: 'kitty',         nome: 'Kitty Zampe di Velluto',    ruolo: 'La Gatta Spadaccina' },
+  { id: 'specchio',      nome: 'Specchio Magico',           ruolo: 'Il Riflesso della Verit\u00e0' },
+  { id: 'robin',         nome: 'Robin Hood',                ruolo: 'Il Ladro Gentiluomo della Foresta' },
+  { id: 'altro',         nome: 'Altro',                     ruolo: 'Scegli il tuo personaggio!' }
 ];

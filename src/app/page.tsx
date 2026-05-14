@@ -11,7 +11,7 @@ import RSVPModal from '@/components/RSVPModal';
 import MapBlock from '@/components/MapBlock';
 import { RSVPStore, type RSVPEntry } from '@/lib/rsvp-store';
 import { applyToneVars, applyFontVars } from '@/lib/theme';
-import type { Character } from '@/data/characters';
+import { CHARACTERS, type Character } from '@/data/characters';
 
 export default function Home() {
   const [introDone, setIntroDone] = useState(false);
@@ -113,7 +113,7 @@ export default function Home() {
         <CharacterGrid onPick={setPicked} />
 
         <div className="tally-strip">
-          <div><strong>{rsvps.length}</strong>su 30 pergamene reclamate</div>
+          <div><strong>{rsvps.length}</strong>su {CHARACTERS.filter(c => c.id !== 'altro').length} pergamene reclamate</div>
           <div><strong>{rsvps.filter(r => r.contribution_kind === 'cibo').length}</strong>portano cibo</div>
           <div><strong>{rsvps.filter(r => r.contribution_kind === 'bevande').length}</strong>portano bevande</div>
           <div><strong>{rsvps.filter(r => r.contribution_kind === 'sorpresa').length}</strong>portano sorprese</div>

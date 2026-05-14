@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { CHARACTERS } from '@/data/characters';
-import { CHAR_AVATARS } from '@/data/character-avatars';
+import { CHAR_AVATARS, CHAR_STYLES } from '@/data/character-avatars';
 import { RSVPStore, type RSVPEntry } from '@/lib/rsvp-store';
 import { applyToneVars, applyFontVars } from '@/lib/theme';
 import SwampBg from '@/components/SwampBg';
@@ -143,7 +143,7 @@ export default function AdminPage() {
               <div className="stat-lbl">ospiti confermati</div>
             </div>
             <div className="stat-cell">
-              <div className="stat-num">{30 - rsvps.length}</div>
+              <div className="stat-num">{CHARACTERS.filter(c => c.id !== 'altro').length - rsvps.length}</div>
               <div className="stat-lbl">pergamene libere</div>
             </div>
             <div className="stat-cell">
@@ -186,7 +186,8 @@ export default function AdminPage() {
         ) : (
           <div className="rsvp-list">
             {filtered.map((r, i) => {
-              const avatarSrc = CHAR_AVATARS[r.character_id] || '';
+              const avatarSrc = CHAR_AVATARS[r.character_id] || (r.character_id.startsWith('altro_') ? CHAR_AVATARS['altro'] : '');
+              const cStyle = CHAR_STYLES[r.character_id];
               return (
                 <motion.div
                   key={r.character_id + i}
@@ -202,7 +203,7 @@ export default function AdminPage() {
                         alt={r.character_nome || r.character_id}
                         width={64}
                         height={64}
-                        style={{ objectFit: 'cover', objectPosition: 'center 20%', width: 64, height: 64 }}
+                        style={{ objectFit: cStyle?.objectFit || 'cover', objectPosition: cStyle?.objectPosition || 'center 20%', width: 64, height: 64 }}
                         unoptimized={avatarSrc.startsWith('data:')}
                       />
                     )}
@@ -229,6 +230,7 @@ export default function AdminPage() {
         <div className="char-grid">
           {notTaken.map((c, i) => {
             const avatarSrc = CHAR_AVATARS[c.id] || '';
+            const cStyle = CHAR_STYLES[c.id];
             return (
               <motion.div
                 key={c.id}
@@ -245,7 +247,7 @@ export default function AdminPage() {
                       alt={c.nome}
                       width={200}
                       height={200}
-                      style={{ objectFit: 'cover', objectPosition: 'center 20%', width: '100%', height: '100%' }}
+                      style={{ objectFit: cStyle?.objectFit || 'cover', objectPosition: cStyle?.objectPosition || 'center 20%', width: '100%', height: '100%' }}
                       unoptimized={avatarSrc.startsWith('data:')}
                     />
                   )}

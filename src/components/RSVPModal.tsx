@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Character } from '@/data/characters';
-import { CHAR_AVATARS } from '@/data/character-avatars';
+import { CHAR_AVATARS, CHAR_STYLES } from '@/data/character-avatars';
 import { RSVPStore } from '@/lib/rsvp-store';
 
 interface RSVPModalProps {
@@ -16,10 +16,12 @@ interface RSVPModalProps {
 export default function RSVPModal({ character, onClose, onConfirm }: RSVPModalProps) {
   const [nome, setNome] = useState('');
   const [cognome, setCognome] = useState('');
+  const [customChar, setCustomChar] = useState('');
   const [tipo, setTipo] = useState<'niente' | 'cibo' | 'bevande' | 'sorpresa'>('niente');
   const [dettaglio, setDettaglio] = useState('');
   const [confirmed, setConfirmed] = useState(false);
   const [error, setError] = useState('');
+  const isAltro = character.id === 'altro';
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -35,10 +37,13 @@ export default function RSVPModal({ character, onClose, onConfirm }: RSVPModalPr
     const trimmedCognome = cognome.trim();
     if (trimmedNome.length < 2) { setError('Scrivi il tuo nome, gentile creatura.'); return; }
     if (trimmedCognome.length < 2) { setError('Anche il cognome, per favore!'); return; }
+    if (isAltro && customChar.trim().length < 2) { setError('Scrivi il personaggio che vuoi interpretare!'); return; }
     const fullName = trimmedNome + ' ' + trimmedCognome;
+    const charId = isAltro ? 'altro_' + Date.now() : character.id;
+    const charNome = isAltro ? customChar.trim() : character.nome;
     const ok = await RSVPStore.add({
-      character_id: character.id,
-      character_nome: character.nome,
+      character_id: charId,
+      character_nome: charNome,
       guest_name: fullName,
       contribution_kind: tipo,
       contribution_detail: dettaglio.trim()
@@ -49,6 +54,7 @@ export default function RSVPModal({ character, onClose, onConfirm }: RSVPModalPr
   }
 
   const avatarSrc = CHAR_AVATARS[character.id] || '';
+  const customStyle = CHAR_STYLES[character.id];
 
   return (
     <AnimatePresence>
@@ -86,7 +92,12 @@ export default function RSVPModal({ character, onClose, onConfirm }: RSVPModalPr
                         alt={character.nome}
                         width={120}
                         height={120}
-                        style={{ objectFit: 'cover', objectPosition: 'center 20%', width: '100%', height: '100%' }}
+                        style={{
+                          objectFit: customStyle?.objectFit || 'cover',
+                          objectPosition: customStyle?.objectPosition || 'center 20%',
+                          width: '100%',
+                          height: '100%',
+                        }}
                         unoptimized={avatarSrc.startsWith('data:')}
                       />
                     )}
@@ -102,6 +113,19 @@ export default function RSVPModal({ character, onClose, onConfirm }: RSVPModalPr
               </div>
 
               <div className="rule"><span className="glyph">&#10086;</span></div>
+
+              {isAltro && (
+                <label className="rsvp-label">
+                  <span className="mono">Che personaggio vuoi essere?</span>
+                  <input
+                    type="text"
+                    value={customChar}
+                    onChange={e => setCustomChar(e.target.value)}
+                    placeholder="es. Principe Ranocchio, Hansel, Gretel..."
+                    maxLength={60}
+                  />
+                </label>
+              )}
 
               <div className="rsvp-name-row">
                 <label className="rsvp-label">
@@ -180,7 +204,7 @@ export default function RSVPModal({ character, onClose, onConfirm }: RSVPModalPr
               <div className="wax bob">RSVP</div>
               <h2 className="display" style={{ marginTop: 18 }}>Pergamena sigillata!</h2>
               <p className="muted" style={{ marginTop: 8 }}>
-                <strong>{nome} {cognome}</strong>, sarai <strong>{character.nome}</strong>.
+                <strong>{nome} {cognome}</strong>, sarai <strong>{isAltro ? customChar : character.nome}</strong>.
               </p>
               <p className="script" style={{ fontSize: '38px', color: 'var(--moss-deep)' }}>
                 ci vediamo nella palude

@@ -36,6 +36,15 @@ export const CHAR_AVATARS: Record<string, string> = {
   biancaneve:  img + 'biancaneve.jpg',
   bella:       img + 'bella.png',
   raperonzolo: img + 'rapunzel_shrek.png',
+  humpty:    img + 'humpty.jpeg',
+  kitty:     img + 'kitty.jpeg',
+  specchio:  img + 'specchio.jpeg',
+  robin:     img + 'robin.jpeg',
+  altro: svgDataUri(
+    '<circle cx="60" cy="60" r="48" fill="#5c6b3c"/>' +
+    '<circle cx="60" cy="60" r="42" fill="#6b7a45"/>' +
+    '<text x="60" y="72" text-anchor="middle" font-size="42" font-weight="bold" fill="#f5f0e1">?</text>'
+  ),
   cappuccetto: svgDataUri(
     '<circle cx="60" cy="60" r="60" fill="#a02020"/>' +
     '<path d="M24 60 Q26 14 60 10 Q94 14 96 60 Q92 70 86 80 L34 80 Q28 70 24 60Z" fill="#d03030"/>' +
@@ -46,4 +55,12 @@ export const CHAR_AVATARS: Record<string, string> = {
     '<circle cx="44" cy="68" r="5" fill="#e08080" opacity=".35"/>' +
     '<circle cx="76" cy="68" r="5" fill="#e08080" opacity=".35"/>'
   )
+};
+
+/** Override objectFit to 'contain' so full-body images fit inside the circle */
+export const CHAR_STYLES: Record<string, { objectFit: 'contain'; objectPosition: string }> = {
+  humpty:   { objectFit: 'contain', objectPosition: 'center center' },
+  kitty:    { objectFit: 'contain', objectPosition: 'center center' },
+  specchio: { objectFit: 'contain', objectPosition: 'center center' },
+  robin:    { objectFit: 'contain', objectPosition: 'center center' },
 };
